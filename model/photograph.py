@@ -88,7 +88,11 @@ class Photograph(ModelBase):
             elif len(parts) < 2: 
                 return float(parts[0])
             else:
-                return float(parts[0]) / float(parts[1])
+                a = float(parts[0])
+                b = float(parts[1])
+                
+                if ( abs(b) < 1e-3 ): return a
+                return a / b
 
         # ------------------------------------
 
@@ -279,7 +283,7 @@ class Photograph(ModelBase):
         
         for k in self._sa_class_manager.mapper.columns.keys():
             setattr( self, k, getattr(r,k) )
-        sess.close()
+        sess.close() 
 
         return r
     
